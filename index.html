@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sand's Coffee & More | Udaipur's Trendy Fast Food Spot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream: #FFF5EB;
+            --terracotta: #E07A5F;
+            --teal: #81B29A;
+            --mustard: #F2CC8F;
+            --charcoal: #3D405B;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+            background-color: var(--cream);
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                         url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dish-card:hover img {
+            transform: scale(1.05);
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transition: opacity 0.6s ease-in;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+        }
+        
+        .slide-in-right {
+            transform: translateX(50px);
+            opacity: 0;
+            transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+        }
+        
+        .slide-in-right.visible {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        .scale-up {
+            transform: scale(0.9);
+            opacity: 0;
+            transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+        }
+        
+        .scale-up.visible {
+            transform: scale(1);
+            opacity: 1;
+        }
+        
+        .hamburger {
+            transition: transform 0.3s ease;
+        }
+        
+        .hamburger.active {
+            transform: rotate(90deg);
+        }
+        
+        .nav-links {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .nav-links.active {
+            max-height: 300px;
+        }
+        
+        .header-logo {
+            font-family: 'Playfair Display', serif;
+            position: relative;
+        }
+        
+        .header-logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #F2CC8F, #E07A5F);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .header-logo:hover::after {
+            transform: scaleX(1);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #E07A5F;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .floating-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: #E07A5F;
+            color: white;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .price-tag {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: rgba(255,255,255,0.9);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .menu-category {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .menu-category::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #F2CC8F, #E07A5F);
+            transition: width 0.3s ease;
+        }
+        
+        .menu-category:hover::before {
+            width: 10px;
+        }
+        
+        .floating-action-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(45deg, #E07A5F, #F2CC8F);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+        
+        .floating-action-btn:hover {
+            transform: scale(1.1) rotate(10deg);
+        }
+        
+        .dish-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: #E07A5F;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .dish-badge.veg {
+            background-color: #81B29A;
+        }
+        
+        .dish-badge.spicy {
+            background-color: #E07A5F;
+        }
+        
+        .dish-badge.bestseller {
+            background-color: #F2CC8F;
+            color: #3D405B;
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        /* Order form styles */
+        .order-form input, .order-form select, .order-form textarea {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 0.25rem;
+        }
+        
+        .order-form button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #E07A5F;
+            color: white;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            z-index: 1000;
+            display: none;
+        }
+        
+        /* Loading spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <!-- Header -->
+    <header class="fixed w-full bg-white/90 backdrop-blur-sm shadow-md z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="relative">
+                    <i class="fas fa-utensils text-3xl text-amber-700"></i>
+                    <span class="floating-badge">NEW</span>
+                </div>
+                <h1 class="text-2xl font-bold text-gray-800 header-logo">
+                    <span class="text-amber-700">Sand's</span> Coffee & More
+                </h1>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex space-x-8 items-center">
+                <a href="#menu" class="text-gray-700 hover:text-amber-700 transition duration-300 nav-link">Menu</a>
+                <a href="#location" class="text-gray-700 hover:text-amber-700 transition duration-300 nav-link">Location</a>
+                <a href="#contact" class="text-gray-700 hover:text-amber-700 transition duration-300 nav-link">Contact</a>
+                <div class="relative">
+                    <button id="order-now-btn" class="bg-amber-600 hover:bg-amber-700 text-white font-medium py-2 px-6 rounded-full transition duration-300 transform hover:scale-105 shadow-md">
+                        Order Now
+                    </button>
+                    <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">HOT</span>
+                </div>
+            </nav>
+            
+            <!-- Mobile Navigation Toggle -->
+            <button id="menu-toggle" class="md:hidden focus:outline-none hamburger">
+                <i class="fas fa-bars text-2xl text-gray-700"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Navigation Links -->
+        <div id="nav-links" class="nav-links md:hidden bg-white/95 backdrop-blur-sm">
+            <div class="container mx-auto px-4 py-2 flex flex-col space-y-3">
+                <a href="#menu" class="py-3 text-gray-700 hover:text-amber-700 transition duration-300 border-b border-gray-100 flex items-center">
+                    <i class="fas fa-utensils mr-3"></i> Menu
+                </a>
+                <a href="#location" class="py-3 text-gray-700 hover:text-amber-700 transition duration-300 border-b border-gray-100 flex items-center">
+                    <i class="fas fa-map-marker-alt mr-3"></i> Location
+                </a>
+                <a href="#contact" class="py-3 text-gray-700 hover:text-amber-700 transition duration-300 border-b border-gray-100 flex items-center">
+                    <i class="fas fa-phone-alt mr-3"></i> Contact
+                </a>
+                <button id="mobile-order-btn" class="bg-amber-600 hover:bg-amber-700 text-white font-medium py-2 px-6 rounded-full transition duration-300 mt-2 mb-2">
+                    Order Now
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero min-h-screen flex items-center justify-center text-white pt-16">
+        <div class="container mx-auto px-4 text-center fade-in">
+            <div class="inline-block bg-white/20 backdrop-blur-sm px-6 py-2 rounded-full mb-6">
+                <span class="text-amber-300 font-medium">Since 2023</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+                <span class="text-amber-300">Fast Food</span> With <br>
+                <span class="text-white">A Royal Touch</span>
+            </h1>
+            <p class="text-xl md:text-2xl mb-10 max-w-2xl mx-auto">
+                Serving Udaipur's most delicious burgers, pizzas & coffee with a modern twist
+            </p>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-4">
+                <a href="#menu" class="inline-block bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 transform hover:scale-105 shadow-lg">
+                    View Menu
+                </a>
+                <button id="hero-order-btn" class="inline-block border-2 border-white hover:bg-white/20 text-white font-bold py-3 px-8 rounded-full transition duration-300 transform hover:scale-105">
+                    Order Now
+                </button>
+            </div>
+        </div>
+        
+        <!-- Floating social media icons -->
+        <div class="absolute left-6 bottom-6 hidden md:flex flex-col space-y-4">
+            <a href="#" class="bg-white/20 hover:bg-white/30 backdrop-blur-sm w-12 h-12 rounded-full flex items-center justify-center transition duration-300">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="bg-white/20 hover:bg-white/30 backdrop-blur-sm w-12 h-12 rounded-full flex items-center justify-center transition duration-300">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="bg-white/20 hover:bg-white/30 backdrop-blur-sm w-12 h-12 rounded-full flex items-center justify-center transition duration-300">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+        </div>
+        
+        <!-- Scroll down indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <a href="#about" class="text-white text-2xl">
+                <i class="fas fa-chevron-down"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="py-20 bg-amber-50">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0 md:pr-10 fade-in">
+                    <div class="inline-block bg-amber-100 text-amber-800 px-4 py-1 rounded-full mb-4 font-medium">
+                        Our Story
+                    </div>
+                    <h2 class="text-3xl font-bold mb-6 text-gray-800">Welcome to <span class="text-amber-700">Sand's Coffee & More</span></h2>
+                    <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                        Born in the heart of Udaipur, we're redefining fast food with royal Rajasthani flavors blended with global trends. Our chefs craft each dish with locally-sourced ingredients and a passion for flavor.
+                    </p>
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-star text-amber-500 mr-2"></i>
+                            <span class="font-semibold">4.8/5</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-utensils text-amber-500 mr-2"></i>
+                            <span class="font-semibold">200+ Dishes</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-smile text-amber-500 mr-2"></i>
+                            <span class="font-semibold">1000+ Happy Customers</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2 scale-up">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                             alt="Restaurant interior"
+                             class="w-full h-auto rounded-lg shadow-xl">
+                        <div class="absolute -bottom-5 -right-5 bg-white p-4 rounded-lg shadow-lg">
+                            <div class="flex items-center">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Chef" class="w-12 h-12 rounded-full border-2 border-amber-500">
+                                <div class="ml-3">
+                                    <h4 class="font-bold">Chef Rajesh</h4>
+                                    <p class="text-sm text-gray-600">Head Chef</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Preview Section -->
+    <section id="menu-preview" class="py-20 bg-teal-100">
+        <div class="container mx-auto px-4 text-center">
+            <div class="inline-block bg-white/20 text-teal-800 px-6 py-1 rounded-full mb-4 font-medium">
+                Our Specialties
+            </div>
+            <h2 class="text-3xl font-bold mb-16 text-gray-800 fade-in">Customer <span class="text-amber-700">Favorites</span></h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Dish 1 -->
+                <div class="dish-card scale-up">
+                    <div class="relative overflow-hidden rounded-xl shadow-lg mb-4 h-64">
+                        <img src="https://images.unsplash.com/photo-1579751626657-72bc17010498?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1364&q=80"
+                             alt="Margherita Pizza"
+                             class="w-full h-full object-cover transition duration-500">
+                        <span class="dish-badge bestseller">Bestseller</span>
+                        <span class="price-tag">₹50</span>
+                    </div>
+                    <h3 class="text-xl font-semibold">Margherita Pizza</h3>
+                    <p class="text-gray-600 mt-1">Classic cheese pizza with fresh basil</p>
+                    <button class="mt-3 bg-amber-600 hover:bg-amber-700 text-white font-medium py-2 px-4 rounded-full transition duration-300 transform hover:scale-105 dish-order-btn" data-dish="Margherita Pizza" data-price="50">
+                        Add to Order
+                    </button>
+                </div>
+                
+                <!-- Dish 2 -->
+                <div class="dish-card scale-up" style="transition-delay: 0.1s">
+                    <div class="relative overflow-hidden rounded-xl shadow-lg mb-4 h-64">
+                        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1398&q=80"
+                             alt="Veg Burger"
+                             class="w-full h-full object-cover transition duration-500">
+                        <span class="dish-badge veg">VEG</span>
+                        <span class="price-tag">₹25</span>
+                    </div>
+                    <h3 class="text-xl font-semibold">Classic Veg Burger</h3>
+                    <p class="text-gray-600 mt-1">Fresh veggies with our special sauce</p>
+                    <button class="mt-3 bg-amber-600 hover:bg-amber-700 text-white font-medium py-2 px-4 rounded-full transition duration-300 transform hover:scale-105 dish-order-btn" data-dish="Classic Veg Burger" data-price="25">
+                        Add to Order
+                    </button>
+                </div>
+                
+                <!-- Dish 3 -->
+                <div class="dish-card scale-up" style="transition-delay: 0.2s">
+                    <div class="relative overflow-hidden rounded-xl shadow-lg mb-4 h-64">
+                        <img src="https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                             alt="French Fries"
+                             class="w-full h-full object-cover transition duration-500">
+                        <span class="dish-badge spicy">SPICY</span>
+                        <span class="price-tag">₹40</span>
+                    </div>
+                    <h3 class="text-xl font-semibold">Crispy French Fries</h3>
+                    <p class="text-gray-600 mt-1">Golden fries with seasoning</p>
+                    <button class="mt-3 bg-amber-600 hover:bg-amber-700 text-white font-medium py-2 px-4 rounded-full transition duration-300 transform hover:scale-105 dish-order-btn" data-dish="Crispy French Fries" data-price="40">
+                        Add to Order
+                    </button>
+                </div>
+                
+                <!-- Dish 4 -->
+                <div class="dish-card scale-up" style="transition-delay: 0.3s">
+                    <div class="relative overflow-hidden rounded-xl shadow-lg mb-4 h-64">
+                        <img src="https://images.unsplash.com/photo-1517705008128-361805f42e86?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1587&q=80"
+                             alt="Cold Coffee"
+                             class="w-full h-full object-cover transition duration-500">
+                        <span class="dish-badge bestseller">Bestseller</span>
+                        <span class="price-tag">₹25</span>
+                    </div>
+                    <h3 class="text-xl font-semibold">Signature Cold Coffee</h3>
+                    <p class="text-gray-600 mt-1">Creamy and refreshing</p>
+                    <button class="mt-3 bg-amber-600 hover:bg-amber-700 text-white font-medium py-2 px-4 rounded-full transition duration-300 transform hover:scale-105 dish-order-btn" data-dish="Signature Cold Coffee" data-price="25">
+                        Add to Order
+                    </button>
+                </div>
+            </div>
+            
+            <button id="full-menu-order-btn" class="mt-16 inline-block bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 transform hover:scale-105 shadow-lg fade-in">
+                Order Full Menu
+            </button>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16 fade-in">
+                <div class="inline-block bg-amber-100 text-amber-800 px-6 py-1 rounded-full mb-4 font-medium">
+                    Our Menu
+                </div>
+                <h2 class="text-3xl font-bold mb-4 text-gray-800">Delicious <span class="text-amber-700">Offerings</span></h2>
+                <p class="text-lg text-gray-600">A variety of fast food options to satisfy your cravings!</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Beverages -->
+                <div class="menu-category bg-amber-50 p-6 rounded-lg shadow-md transition duration-300 hover:bg-amber-100">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-coffee text-2xl text-amber-700 mr-3"></i>
+                        <h3 class="text-xl font-bold text-gray-800">Beverages</h3>
+                    </div>
+                    <ul class="space-y-3">
+                        <li class="flex justify-between items-center">
+                            <div>
+                                <span class="font-medium">Cold Coffee</span>
+                                <p class="text-sm text-gray-500">Iced coffee with cream</p>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="font-semibold bg-amber-200 px-3 py-1 rounded-full mr-2">₹25</span>
+                                <button class="bg-amber-600 hover:bg-amber-700 text-white text-sm px-2 py-1 rounded-full dish-order-btn" data-dish="Cold Coffee" data-price="25">
+                                    +
+                                </button>
+                            </div>
+                        </li>
+                        <li class="flex justify-between items-center">
+                            <div>
+                                <span class="font-medium">Hot Coffee</span>
+                                <p class="text-sm text-gray-500">Freshly brewed</p>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="font-semibold bg-amber-200 px-3 py-1 rounded-full mr-2">₹20</span>
+                                <button class="bg-amber-600 hover:bg-amber-700 text-white text-sm px-2 py-1 rounded-full dish-order-btn" data-dish="Hot Coffee" data-price="20">
+                                    +
+                                </button>
+                            </div>
+                        </li>
+                        <li class="flex justify-between items-center">
+                            <div>
+                                <span class="font-medium">Masala Chai</span>
+                                <p class="text-sm text-gray-500">Traditional Indian tea</p>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="font-semibold bg-amber-200 px-3 py-1 rounded-full mr-2">₹15</span>
+                                <button class="bg-amber-600 hover:bg-amber-700 text-white text-sm px-2 py-1 rounded-full dish-order-btn" data-dish="Masala Chai" data-price="15">
+                                    +
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Burgers -->
+                <div class="menu-category bg-amber-50 p-6 rounded-lg shadow-md transition duration-300 hover:bg-amber-100">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-hamburger text-2xl text-amber-700 mr-3"></i>
+                        <h3 class="text-xl font-bold text-gray-800">Burgers</h3>
+                    </div>
+                    <ul class="space-y-3">
+                        <li class="flex justify-between items-center">
+                            <div>
+                                <span class="font-medium">Veg Burger</span>
+                                <p class="text-sm text-gray-500">With fresh veggies</p>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="font-semibold bg-amber-200 px-3 py-1 rounded-full mr-2">₹25</span>
+                                <button class="bg-amber-600 hover:bg-amber-700 text-white text-sm px-2 py-1 rounded-full dish-order-btn" data-dish="Veg Burger" data-price="25">
+                                    +
+                                </button>
+                            </div>
+                        </li>
+                        <li class="flex justify-between items-center">
+                            <div>
+                                <span class="font-medium">Schezwan Burger</span>
+                                <p class="text-sm text-gray-500">Spicy schezwan sauce</p>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="font-semibold bg-amber-200 px-3 py-1 rounded-full mr-2">₹30</span>
+                                <button class="bg-amber-600 hover:bg-amber-700 text-white text-sm px-2 py-1 rounded-full dish-order-btn" data-dish="Schezwan Burger" data-price="30">
+                                    +
+                                </button>
+                            </div>
+                        </li>
+                        <li class="flex justify-between items-center">
+                            <div>
+                                <span class="font-medium">Peri Peri Burger</span>
+                                <p class="text-sm text-gray-500">Tangy peri peri flavor</p>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="font-semibold bg-amber-200 px-3 py-1 rounded-full mr-2">₹30</span>
+                                <button class="bg-amber-600 hover:bg-amber-700 text-white text-sm px-2 py-1 rounded-full dish-order-btn" data-dish="Peri Peri Burger" data-price="30">
+                                    +
+                                </button>
+                            </div>
+                        </li>
+                        <li class="flex justify-between items-center">
+                            <div>
+                                <span class="font-medium">Tandoori Burger</span>
+                                <p class="text-sm text-gray-500">Smoky tandoori taste</p>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="font-semibold bg-amber-200 px-3 py-1 rounded-full mr-2">₹30</span>
+                                <button class="bg-amber-600 hover:bg-amber-700 text-white text-sm px-2 py-1 rounded-full dish-order-btn" data-dish="Tandoori Burger" data-price="30">
+                                    +
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Pizzas -->
+                <div class="menu-category bg-amber-50 p-6 rounded-lg shadow-md transition duration-300 hover:bg-amber-100">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-pizza-slice text-2xl text-amber-700 mr-3"></i>
+                        <h3 class="text-xl font-bold text-gray-800">Pizzas</h3>
+                    </div>
+                    <ul class="space-y-3">
+                        <li class="flex justify-between items-center">
+                            <div>
+                                <span class="font-medium">Margherita Pizza</span>
+                                <p class="text-sm text-gray-500">Classic cheese pizza</p>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="font-semibold bg-amber-200 px-3 py-1 rounded-full mr-2">₹50</span>
+                                <button class="bg-amber-600 hover:bg-amber-700 text-white text-sm px-2 py-1 rounded-full dish-order-btn" data-dish="Margherita Pizza" data-price="50">
+                                    +
+                                </button>
+                            </div>
+                        </li>
+                        <li class="flex justify-between items-center">
+                            <div>
+                                <span class="font-medium">Veg Delight Pizza</span>
+                                <p class="text-sm text-gray-500">Loaded with veggies</p>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="font-semibold bg-amber-200 px-3 py-1 rounded-full mr-2">₹55</span>
+                                <button class="bg-amber-600 hover:bg-amber-700 text-white text-sm px-2 py-1 rounded-full dish-order-btn" data-dish="Veg Delight Pizza" data-price="55">
+                                    +
+                                </button>
+                            </div>
+                        </li>
+                        <li class="flex justify-between items-center">
+                            <div>
+                                <span class="font-medium">Super Schezwan Pizza</span>
+                                <p class="text-sm text-gray-500">Spicy schezwan twist</p>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="font-semibold bg-amber-200 px-3 py-1 rounded-full mr-2">₹60</span>
+                                <button class="bg-amber-600 hover:bg-amber-700 text-white text-sm px-2 py-1 rounded-full dish-order-btn" data-dish="Super Schezwan Pizza" data-price="60">
+                                    +
+                                </button>
+                            </div>
+                        </li>
+                        <li class="flex justify-between items-center">
+                            <div>
+                                <span class="font-medium">Cheese Corn Pizza</span>
+                                <p class="text-sm text-gray-500">Sweet corn with cheese</p>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="font-semibold bg-amber-200 px-3 py-1 rounded-full mr-2">₹65</span>
+                                <button class="bg-amber-600 hover:bg-amber-700 text-white text-sm px-2 py-1 rounded-full dish-order-btn" data-dish="Cheese Corn Pizza" data-price="65">
+                                    +
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- French Fries -->
+                <div class="menu-category bg-amber-50 p-6 rounded-lg shadow-md transition duration-300 hover:bg-amber-100">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-french-fries text-2xl text-amber-700 mr-3"></i>
+                        <h3 class="text-xl font-bold text-gray-800">French Fries</h3>
+                    </div>
+                    <ul class="space-y-3">
+                        <li class="flex justify-between items-center">
+                            <div>
+                                <span class="font-medium">French Fries</span>
+                                <p class="text-sm text-gray-500">Classic salted fries</p>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="font-semibold bg-amber-200 px-3 py-1 rounded-full mr-2">₹40</span>
+                                <button class="bg-amber-600 hover:bg-amber-700 text-white text-sm px-2 py-1 rounded-full dish-order-btn" data-dish="French Fries" data-price="40">
+                                    +
+                                </button>
+                            </div>
+                        </li>
+                        <li class="flex justify-between items-center">
+                            <div>
+                                <span class="font-medium">Peri Peri Fries</span>
+                                <p class="text-sm text-gray-500">Spicy peri peri flavor</p>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="font-semibold bg-amber-200 px-3 py-1 rounded-full mr-2">₹50</span>
+                                <button class="bg-amber-600 hover:bg-amber-700 text-white text-sm px-2 py-1 rounded-full dish-order-btn" data-dish="Peri Peri Fries" data-price="50">
+                                    +
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Dips -->
+                <div class="menu-category bg-amber-50 p-6 rounded-lg shadow-md transition duration-300 hover:bg-amber-100">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-mortar-pestle text-2xl text-amber-700 mr-3"></i>
+                        <h3 class="text-xl font-bold text-gray-800">Dips</h3>
+                    </div>
+                    <ul class="space-y-3">
+                        <li class="flex justify-between items-center">
+                            <div>
+                                <span class="font-medium">Dips</span>
+                                <p class="text-sm text-gray-500">Various flavors</p>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="font-semibold bg-amber-200 px-3 py-1 rounded-full mr-2">₹10</span>
+                                <button class="bg-amber-600 hover:bg-amber-700 text-white text-sm px-2 py-1 rounded-full dish-order-btn" data-dish="Dips" data-price="10">
+                                    +
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Combos -->
+                <div class="menu-category bg-amber-50 p-6 rounded-lg shadow-md transition duration-300 hover:bg-amber-100">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-box-open text-2xl text-amber-700 mr-3"></i>
+                        <h3 class="text-xl font-bold text-gray-800">Combos</h3>
+                    </div>
+                    <ul class="space-y-3">
+                        <li class="flex justify-between items-center">
+                            <div>
+                                <span class="font-medium">Burger + Fries + Drink</span>
+                                <p class="text-sm text-gray-500">Perfect meal combo</p>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="font-semibold bg-amber-200 px-3 py-1 rounded-full mr-2">₹80</span>
+                                <button class="bg-amber-600 hover:bg-amber-700 text-white text-sm px-2 py-1 rounded-full dish-order-btn" data-dish="Burger Combo" data-price="80">
+                                    +
+                                </button>
+                            </div>
+                        </li>
+                        <li class="flex justify-between items-center">
+                            <div>
+                                <span class="font-medium">Pizza + Drink</span>
+                                <p class="text-sm text-gray-500">Satisfying combo</p>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="font-semibold bg-amber-200 px-3 py-1 rounded-full mr-2">₹70</span>
+                                <button class="bg-amber-600 hover:bg-amber-700 text-white text-sm px-2 py-1 rounded-full dish-order-btn" data-dish="Pizza Combo" data-price="70">
+                                    +
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16 fade-in">
+                <div class="inline-block bg-amber-100 text-amber-800 px-6 py-1 rounded-full mb-4 font-medium">
+                    Customer Love
+                </div>
+                <h2 class="text-3xl font-bold mb-4 text-gray-800">What Our <span class="text-amber-700">Customers Say</span></h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
+                    <div class="flex items-center mb-4">
+                        <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Customer" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold">Priya Sharma</h4>
+                            <div class="flex">
+                                <i class="fas fa-star text-amber-400"></i>
+                                <i class="fas fa-star text-amber-400"></i>
+                                <i class="fas fa-star text-amber-400"></i>
+                                <i class="fas fa-star text-amber-400"></i>
+                                <i class="fas fa-star text-amber-400"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">
+                        "The best cold coffee in Udaipur! I come here every weekend. The burgers are amazing too - fresh and flavorful."
+                    </p>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
+                    <div class="flex items-center mb-4">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Customer" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold">Rahul Mehta</h4>
+                            <div class="flex">
+                                <i class="fas fa-star text-amber-400"></i>
+                                <i class="fas fa-star text-amber-400"></i>
+                                <i class="fas fa-star text-amber-400"></i>
+                                <i class="fas fa-star text-amber-400"></i>
+                                <i class="fas fa-star-half-alt text-amber-400"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">
+                        "Their peri peri fries are addictive! Great place to hang out with friends. Affordable prices and good quality."
+                    </p>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
+                    <div class="flex items-center mb-4">
+                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Customer" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold">Neha Patel</h4>
+                            <div class="flex">
+                                <i class="fas fa-star text-amber-400"></i>
+                                <i class="fas fa-star text-amber-400"></i>
+                                <i class="fas fa-star text-amber-400"></i>
+                                <i class="fas fa-star text-amber-400"></i>
+                                <i class="fas fa-star text-amber-400"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">
+                        "The cheese corn pizza is my favorite! The staff is very friendly and the place has a nice ambiance. Highly recommended!"
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section id="location" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row">
+                <!-- Map -->
+                <div class="md:w-1/2 mb-10 md:mb-0 md:pr-8 scale-up">
+                    <div class="relative h-96 rounded-lg overflow-hidden shadow-xl">
+                        <img src="https://maps.googleapis.com/maps/api/staticmap?center=24.5854,73.7125&zoom=15&size=600x400&maptype=roadmap&markers=color:red%7C24.5854,73.7125&key=YOUR_API_KEY"
+                             alt="Map of Sand's Coffee & More location"
+                            class="w-full h-full object-cover">
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pulse">
+                            <i class="fas fa-map-marker-alt text-4xl text-red-600"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Location Info -->
+                <div class="md:w-1/2 md:pl-8 slide-in-right">
+                    <div class="inline-block bg-gray-200 text-gray-800 px-6 py-1 rounded-full mb-4 font-medium">
+                        Find Us
+                    </div>
+                    <h2 class="text-3xl font-bold mb-6 text-gray-800">Our <span class="text-amber-700">Location</span></h2>
+                    <div class="space-y-4 text-gray-700">
+                        <div class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-xl mt-1 mr-4 text-amber-600"></i>
+                            <div>
+                                <h3 class="font-semibold">Address</h3>
+                                <p>Plot No. 3, Opposite Ganpati Cars, Azad Chowk, 100 Feet Rd, Mali Colony, Udaipur, Rajasthan 313001</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <i class="fas fa-clock text-xl mt-1 mr-4 text-amber-600"></i>
+                            <div>
+                                <h3 class="font-semibold">Open Hours</h3>
+                                <p>10 AM – 11 PM, Monday to Sunday</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <i class="fas fa-phone-alt text-xl mt-1 mr-4 text-amber-600"></i>
+                            <div>
+                                <h3 class="font-semibold">Phone</h3>
+                                <a href="tel:07615088409" class="hover:text-amber-700 transition duration-300">076150 88409</a>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <i class="fas fa-subway text-xl mt-1 mr-4 text-amber-600"></i>
+                            <div>
+                                <h3 class="font-semibold">Parking</h3>
+                                <p>Ample parking space available opposite the cafe</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <h3 class="font-semibold mb-3">Follow Us</h3>
+                        <div class="flex space-x-4">
+                            <a href="#" class="bg-gray-200 hover:bg-gray-300 w-10 h-10 rounded-full flex items-center justify-center transition duration-300">
+                                <i class="fab fa-facebook-f text-gray-700"></i>
+                            </a>
+                            <a href="#" class="bg-gray-200 hover:bg-gray-300 w-10 h-10 rounded-full flex items-center justify-center transition duration-300">
+                                <i class="fab fa-instagram text-gray-700"></i>
+                            </a>
+                            <a href="#" class="bg-gray-200 hover:bg-gray-300 w-10 h-10 rounded-full flex items-center justify-center transition duration-300">
+                                <i class="fab fa-whatsapp text-gray-700"></i>
+                            </a>
+                            <a href="#" class="bg-gray-200 hover:bg-gray-300 w-10 h-10 rounded-full flex items-center justify-center transition duration-300">
+                                <i class="fab fa-youtube text-gray-700"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-amber-600 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-6 fade-in">Get In <span class="text-amber-200">Touch</span></h2>
+            <p class="text-xl mb-10 max-w-2xl mx-auto fade-in">Have questions or want to place an order? Reach out to us!</p>
+            
+            <div class="flex flex-col md:flex-row justify-center items-center gap-8">
+                <button id="call-btn" class="flex items-center bg-white text-amber-700 font-bold py-4 px-8 rounded-full transition duration-300 transform hover:scale-105 shadow-lg hover:bg-amber-50 group">
+                    <i class="fas fa-phone-alt text-xl mr-3 group-hover:animate-bounce"></i>
+                    Call Now
+                </button>
+                
+                <button id="whatsapp-btn" class="flex items-center bg-white text-amber-700 font-bold py-4 px-8 rounded-full transition duration-300 transform hover:scale-105 shadow-lg hover:bg-amber-50 group">
+                    <i class="fab fa-whatsapp text-xl mr-3 group-hover:animate-bounce"></i>
+                    WhatsApp
+                </button>
+                
+                <button id="email-btn" class="flex items-center bg-white text-amber-700 font-bold py-4 px-8 rounded-full transition duration-300 transform hover:scale-105 shadow-lg hover:bg-amber-50 group">
+                    <i class="fas fa-envelope text-xl mr-3 group-hover:animate-bounce"></i>
+                    Email
+                </button>
+            </div>
+            
+            <!-- Newsletter Signup -->
+            <div class="mt-16 max-w-2xl mx-auto fade-in">
+                <h3 class="text-xl font-semibold mb-4">Subscribe to Our Newsletter</h3>
+                <p class="mb-6">Get updates on special offers and new menu items</p>
+                <form id="newsletter-form" class="flex flex-col sm:flex-row gap-2 justify-center">
+                    <input type="email" id="newsletter-email" placeholder="Your email address" class="px-4 py-3 rounded-full focus:outline-none text-gray-800 w-full sm:w-auto" required>
+                    <button type="submit" class="bg-amber-800 hover:bg-amber-900 text-white font-bold py-3 px-6 rounded-full transition duration-300">
+                        Subscribe
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 bg-gray-800 text-white">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <i class="fas fa-utensils text-amber-500 mr-2"></i>
+                        <span class="text-amber-500">Sand's</span> Coffee & More
+                    </h3>
+                    <p class="text-gray-400">
+                        Serving Udaipur's most delicious fast food with a modern twist since 2023.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#menu" class="text-gray-400 hover:text-amber-500 transition duration-300">Menu</a></li>
+                        <li><a href="#location" class="text-gray-400 hover:text-amber-500 transition duration-300">Location</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-amber-500 transition duration-300">Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-amber-500 transition duration-300">Gallery</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Opening Hours</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex justify-between">
+                            <span>Monday - Friday</span>
+                            <span>10AM - 11PM</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>Saturday</span>
+                            <span>10AM - 11PM</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>Sunday</span>
+                            <span>10AM - 11PM</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact Info</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-amber-500"></i>
+                            <span>Azad Chowk, 100 Feet Rd, Udaipur</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-3 text-amber-500"></i>
+                            <a href="tel:07615088409" class="hover:text-amber-500 transition duration-300">076150 88409</a>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-3 text-amber-500"></i>
+                            <a href="mailto:info@sandscoffee.com" class="hover:text-amber-500 transition duration-300">info@sandscoffee.com</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-8 text-center text-gray-400 fade-in">
+                <p>Made with <i class="fas fa-heart text-red-400"></i> by Harsh Vardhan Singh | © 2025 Sand's Coffee & More. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Floating Action Button -->
+    <button id="floating-action-btn" class="floating-action-btn">
+        <i class="fas fa-phone-alt text-xl"></i>
+    </button>
+
+    <!-- Order Modal -->
+    <div id="order-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="text-2xl font-bold mb-4">Place Your Order</h2>
+            <form id="order-form" class="order-form">
+                <div class="mb-4">
+                    <label for="name" class="block mb-2">Your Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="mb-4">
+                    <label for="phone" class="block mb-2">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="mb-4">
+                    <label for="delivery" class="block mb-2">Delivery Option</label>
+                    <select id="delivery" name="delivery" required>
+                        <option value="">Select option</option>
+                        <option value="pickup">Pickup</option>
+                        <option value="delivery">Delivery</option>
+                    </select>
+                </div>
+                <div class="mb-4" id="address-field" style="display: none;">
+                    <label for="address" class="block mb-2">Delivery Address</label>
+                    <textarea id="address" name="address" rows="3"></textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-2">Your Order</label>
+                    <div id="order-items" class="border rounded p-2 mb-2">
+                        <!-- Order items will be added here dynamically -->
+                        <p class="text-gray-500">No items selected yet</p>
+                    </div>
+                    <div class="flex justify-between font-bold">
+                        <span>Total:</span>
+                        <span id="order-total">₹0</span>
+                    </div>
+                </div>
+                <button type="submit" id="submit-order-btn">
+                    <span id="submit-order-text">Place Order</span>
+                    <span id="submit-order-spinner" class="spinner" style="display: none;"></span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+        
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('#nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+        
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.fade-in, .slide-in-right, .scale-up').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Order functionality
+        const orderButtons = document.querySelectorAll('.dish-order-btn');
+        const orderNowButtons = [
+            document.getElementById('order-now-btn'),
+            document.getElementById('mobile-order-btn'),
+            document.getElementById('hero-order-btn'),
+            document.getElementById('full-menu-order-btn'),
+            document.getElementById('floating-action-btn')
+        ];
+        const orderModal = document.getElementById('order-modal');
+        const closeModal = document.querySelector('.close-modal');
+        const orderForm = document.getElementById('order-form');
+        const orderItems = document.getElementById('order-items');
+        const orderTotal = document.getElementById('order-total');
+        const deliverySelect = document.getElementById('delivery');
+        const addressField = document.getElementById('address-field');
+        const submitOrderBtn = document.getElementById('submit-order-btn');
+        const submitOrderText = document.getElementById('submit-order-text');
+        const submitOrderSpinner = document.getElementById('submit-order-spinner');
+        const toast = document.getElementById('toast');
+        
+        let cart = [];
+        
+        // Initialize all order buttons
+        orderButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const dish = this.getAttribute('data-dish');
+                const price = parseInt(this.getAttribute('data-price'));
+                
+                addToCart(dish, price);
+                showToast(`${dish} added to your order!`);
+            });
+        });
+        
+        // Initialize all "Order Now" buttons
+        orderNowButtons.forEach(button => {
+            if (button) {
+                button.addEventListener('click', openOrderModal);
+            }
+        });
+        
+        // Open order modal
+        function openOrderModal() {
+            updateOrderSummary();
+            orderModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Close order modal
+        closeModal.addEventListener('click', () => {
+            orderModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === orderModal) {
+                orderModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Delivery option change
+        deliverySelect.addEventListener('change', function() {
+            if (this.value === 'delivery') {
+                addressField.style.display = 'block';
+            } else {
+                addressField.style.display = 'none';
+            }
+        });
+        
+        // Add item to cart
+        function addToCart(dish, price) {
+            const existingItem = cart.find(item => item.dish === dish);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    dish: dish,
+                    price: price,
+                    quantity: 1
+                });
+            }
+            
+            if (orderModal.style.display === 'flex') {
+                updateOrderSummary();
+            }
+        }
+        
+        // Update order summary in modal
+        function updateOrderSummary() {
+            if (cart.length === 0) {
+                orderItems.innerHTML = '<p class="text-gray-500">No items selected yet</p>';
+                orderTotal.textContent = '₹0';
+                return;
+            }
+            
+            let html = '';
+            let total = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                html += `
+                    <div class="flex justify-between items-center mb-2 pb-2 border-b">
+                        <div>
+                            <span class="font-medium">${item.dish}</span>
+                            <div class="flex items-center mt-1">
+                                <button class="decrease-quantity text-xs bg-gray-200 px-2 py-1 rounded" data-dish="${item.dish}">-</button>
+                                <span class="mx-2">${item.quantity}</span>
+                                <button class="increase-quantity text-xs bg-gray-200 px-2 py-1 rounded" data-dish="${item.dish}">+</button>
+                            </div>
+                        </div>
+                        <div>
+                            <span>₹${itemTotal}</span>
+                            <button class="remove-item ml-2 text-red-500" data-dish="${item.dish}">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            orderItems.innerHTML = html;
+            orderTotal.textContent = `₹${total}`;
+            
+            // Add event listeners to quantity buttons
+            document.querySelectorAll('.increase-quantity').forEach(button => {
+                button.addEventListener('click', function() {
+                    const dish = this.getAttribute('data-dish');
+                    const item = cart.find(item => item.dish === dish);
+                    item.quantity += 1;
+                    updateOrderSummary();
+                });
+            });
+            
+            document.querySelectorAll('.decrease-quantity').forEach(button => {
+                button.addEventListener('click', function() {
+                    const dish = this.getAttribute('data-dish');
+                    const item = cart.find(item => item.dish === dish);
+                    
+                    if (item.quantity > 1) {
+                        item.quantity -= 1;
+                    } else {
+                        cart = cart.filter(item => item.dish !== dish);
+                    }
+                    
+                    updateOrderSummary();
+                });
+            });
+            
+            document.querySelectorAll('.remove-item').forEach(button => {
+                button.addEventListener('click', function() {
+                    const dish = this.getAttribute('data-dish');
+                    cart = cart.filter(item => item.dish !== dish);
+                    updateOrderSummary();
+                    showToast(`${dish} removed from your order!`);
+                });
+            });
+        }
+        
+        // Form submission
+        orderForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (cart.length === 0) {
+                showToast('Please add items to your order first!', 'error');
+                return;
+            }
+            
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const delivery = document.getElementById('delivery').value;
+            const address = delivery === 'delivery' ? document.getElementById('address').value : '';
+            
+            if (delivery === 'delivery' && !address) {
+                showToast('Please enter delivery address!', 'error');
+                return;
+            }
+            
+            // Show loading state
+            submitOrderText.style.display = 'none';
+            submitOrderSpinner.style.display = 'inline-block';
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Reset form
+                orderForm.reset();
+                cart = [];
+                updateOrderSummary();
+                
+                // Hide loading state
+                submitOrderText.style.display = 'inline-block';
+                submitOrderSpinner.style.display = 'none';
+                
+                // Close modal
+                orderModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                
+                // Show success message
+                showToast('Order placed successfully! We will contact you shortly.', 'success');
+            }, 2000);
+        });
+        
+        // Contact buttons
+        document.getElementById('call-btn').addEventListener('click', function() {
+            window.location.href = 'tel:07615088409';
+        });
+        
+        document.getElementById('whatsapp-btn').addEventListener('click', function() {
+            window.open('https://wa.me/917615088409', '_blank');
+        });
+        
+        document.getElementById('email-btn').addEventListener('click', function() {
+            window.location.href = 'mailto:info@sandscoffee.com';
+        });
+        
+        // Newsletter form
+        document.getElementById('newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('newsletter-email').value;
+            
+            if (!email) {
+                showToast('Please enter your email address', 'error');
+                return;
+            }
+            
+            // Simulate API call
+            setTimeout(() => {
+                document.getElementById('newsletter-email').value = '';
+                showToast('Thank you for subscribing to our newsletter!', 'success');
+            }, 1000);
+        });
+        
+        // Show toast notification
+        function showToast(message, type = 'info') {
+            toast.textContent = message;
+            toast.style.display = 'block';
+            
+            // Set color based on type
+            if (type === 'error') {
+                toast.style.backgroundColor = '#ef4444';
+            } else if (type === 'success') {
+                toast.style.backgroundColor = '#10b981';
+            } else {
+                toast.style.backgroundColor = '#333';
+            }
+            
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
